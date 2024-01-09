@@ -71,3 +71,38 @@ export const deleteTask = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getSingleTask = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const task = await Task.findById(id);
+    res.status(200).json({
+      status: "Success",
+      data: {
+        title: task.title,
+        description: task.description,
+        isCompleted: task.isCompleted,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateTask = async (req, res, next) => {
+  const { title, description } = req.body;
+  const { id } = req.params;
+
+  try {
+    const task = await Task.findById(id);
+    (task.title = title), (task.description = description);
+    await task.save();
+    res.status(200).json({
+      status: "Success",
+      message: "Task Updated Succesfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
