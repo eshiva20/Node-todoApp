@@ -37,7 +37,7 @@ export const registerUser = async (req, res, next) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     user = await User.create({ name, email, password: hashedPassword });
-    createCookie(user, res, 201, "User Created Successfully");
+    createCookie(user, res, 201, "User Created Successfully", "register");
   } catch (error) {
     next(error);
   }
@@ -56,7 +56,7 @@ export const loginUser = async (req, res, next) => {
     if (!isMatch)
       return next(new ErrorHandler("Invalid Email or Password", 400));
 
-    createCookie(user, res, 200, "User Loged in Successfully");
+    createCookie(user, res, 200, "User Loged in Successfully", "login");
   } catch (error) {
     next(error);
   }
