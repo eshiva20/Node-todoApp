@@ -43,6 +43,27 @@ export const registerUser = async (req, res, next) => {
   }
 };
 
+export const updateUser = async (req, res, next) => {
+  try {
+    const { image, name } = req.body;
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    user.image = image;
+    user.name = name;
+
+    await user.save();
+
+    res.status(200).json({
+      status: "Success",
+      message: "User Updated Successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
